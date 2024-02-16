@@ -1,30 +1,30 @@
-import type { Metadata } from "next";
-import { Work_Sans } from "next/font/google";
-import { Room } from "./Room";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Work_Sans } from 'next/font/google';
+import { Room } from './Room';
+import './globals.css';
 
-const workSans = Work_Sans({subsets: ["latin"], variable: '--font-work-sans', weight: ['400', '600', '700']});
+const workSans = Work_Sans({
+  subsets: ['latin'],
+  variable: '--font-work-sans',
+  weight: ['400', '600', '700']
+});
 
 export const metadata: Metadata = {
-  title: "Figma Clone",
-  description: "A minimalist figma clone using Fabric.js and Liveblocks for real-time collaborations",
+  title: 'Figma Clone',
+  description:
+    'A minimalist figma clone using Fabric.js and Liveblocks for real-time collaborations'
 };
 
-export default function RootLayout({children}: Readonly<{
+export default function RootLayout({
+  children
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-    <head>
-      <meta charSet="UTF-8"/>
-      <link rel="icon" type="image/svg+xml" href="/icon.ico"/>
-      <title>Figma Clone</title>
-    </head>
-    <body className={`${workSans.className} bg-primary-grey-200`}>
-      <Room>
-        {children}
-      </Room>
-    </body>
+      <body className={`${workSans.className} bg-primary-grey-200`}>
+        <Room>{children}</Room>
+      </body>
     </html>
   );
 }
