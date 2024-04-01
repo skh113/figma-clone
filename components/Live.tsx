@@ -1,6 +1,6 @@
 import { useMyPresence, useOthers } from '@/liveblocks.config';
 import { CursorMode } from '@/types/type';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import CursorChat from './cursor/CursorChat';
 import LiveCursors from './cursor/LiveCursors';
 
