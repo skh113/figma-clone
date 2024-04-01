@@ -20,8 +20,15 @@ const Live = () => {
   });
   const [reaction, setReaction] = useState<Reaction[]>([]);
 
+  // broadcast the reactions to other users
   const broadcast = useBroadcastEvent();
 
+  // clear reactions after 4 seconds
+  useInterval(() => {
+    setReaction((reaction) =>
+      reaction.filter((r) => r.timestamp > Date.now() - 4000)
+    );
+  }, 1000);
   useInterval(() => {
     if (
       cursorState.mode === CursorMode.Reaction &&
@@ -104,25 +111,25 @@ const Live = () => {
     [cursorState.mode, setCursorState]
   );
 
+  console.log(cursorState);
+
   useEffect(() => {
     const onKeyUp = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case '/':
-          setCursorState({
-            mode: CursorMode.Chat,
-            previosMessage: null,
-            message: ''
-          });
-          break;
-        case 'Escape':
-          updateMyPresence({ message: '' });
-          setCursorState({ mode: CursorMode.Hidden });
-          break;
-        case 'e':
-          cursorState.mode !== CursorMode.Chat &&
-            setCursorState({
-              mode: CursorMode.ReactionSelector
-            });
+      if (e.key === '/') {
+        setCursorState({
+          mode: CursorMode.Chat,
+          previosMessage: null,
+          message: ''
+        });
+      } else if (e.key === 'Escape') {
+        updateMyPresence({ message: '' });
+        setCursorState({ mode: CursorMode.Hidden });
+      }
+      // FIXME: goes to reaction even if it's in chat mode
+      else if (e.key === 'e' && cursorState.mode !== CursorMode.Chat) {
+        setCursorState({
+          mode: CursorMode.ReactionSelector
+        });
       }
     };
 
