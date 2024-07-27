@@ -5,14 +5,23 @@ import {
   useOthers
 } from '@/liveblocks.config';
 import { CursorMode, CursorState, Reaction, ReactionEvent } from '@/types/type';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useState
+} from 'react';
 import CursorChat from './cursor/CursorChat';
 import LiveCursors from './cursor/LiveCursors';
 import ReactionSelector from '@/components/reaction/ReactionButton';
 import FlyingReaction from '@/components/reaction/FlyingReaction';
 import useInterval from '@/hooks/useInterval';
 
-const Live = () => {
+type Props = {
+  canvasRef: MutableRefObject<HTMLCanvasElement | null>;
+};
+
+const Live = ({ canvasRef }: Props) => {
   const others = useOthers();
   const [{ cursor }, updateMyPresence] = useMyPresence() as any;
   const [cursorState, setCursorState] = useState<CursorState>({
@@ -126,12 +135,6 @@ const Live = () => {
         updateMyPresence({ message: '' });
         setCursorState({ mode: CursorMode.Hidden });
       }
-      // FIXME: goes to reaction even if it's in chat mode
-      else if (e.key === 'e' && cursorState.mode !== CursorMode.Chat) {
-        setCursorState({
-          mode: CursorMode.ReactionSelector
-        });
-      }
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
@@ -154,13 +157,14 @@ const Live = () => {
 
   return (
     <div
+      id="canvas"
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       className="h-[100svh] w-full flex justify-center items-center text-center"
     >
-      <h1 className="text-2xl text-white">Figma Clone</h1>
+      <canvas ref={canvasRef} />
 
       {reaction.map((item) => (
         <FlyingReaction
