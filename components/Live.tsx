@@ -29,6 +29,7 @@ const Live = () => {
       reaction.filter((r) => r.timestamp > Date.now() - 4000)
     );
   }, 1000);
+
   useInterval(() => {
     if (
       cursorState.mode === CursorMode.Reaction &&
@@ -161,7 +162,7 @@ const Live = () => {
     >
       <h1 className="text-2xl text-white">Figma Clone</h1>
 
-      {reaction.map((item, index) => (
+      {reaction.map((item) => (
         <FlyingReaction
           key={item.timestamp.toString()}
           x={item.point.x}
