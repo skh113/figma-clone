@@ -1,8 +1,8 @@
-import { createClient } from "@liveblocks/client";
-import { createRoomContext } from "@liveblocks/react";
+import { createClient, LiveMap } from '@liveblocks/client';
+import { createRoomContext } from '@liveblocks/react';
 
 const client = createClient({
-  publicApiKey: process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!,
+  publicApiKey: process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!
 });
 
 // Presence represents the properties that exist on every user in the Room
@@ -20,6 +20,7 @@ type Presence = {
 type Storage = {
   // author: LiveObject<{ firstName: string, lastName: string }>,
   // ...
+  canvasObjects: LiveMap<string, any>;
 };
 
 // Optionally, UserMeta represents static/readonly metadata on each user, as
@@ -80,8 +81,8 @@ export const {
     useEditComment,
     useDeleteComment,
     useAddReaction,
-    useRemoveReaction,
-  },
+    useRemoveReaction
+  }
 } = createRoomContext<Presence, Storage, UserMeta, RoomEvent, ThreadMetadata>(
   client,
   {
@@ -120,6 +121,6 @@ export const {
       // );
 
       return [];
-    },
+    }
   }
 );
