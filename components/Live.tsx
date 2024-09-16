@@ -121,8 +121,6 @@ const Live = ({ canvasRef }: Props) => {
     [cursorState.mode, setCursorState]
   );
 
-  console.log(cursorState);
-
   useEffect(() => {
     const onKeyUp = (e: KeyboardEvent) => {
       if (e.key === '/') {
@@ -130,6 +128,10 @@ const Live = ({ canvasRef }: Props) => {
           mode: CursorMode.Chat,
           previosMessage: null,
           message: ''
+        });
+      } else if (e.key === 'e' && cursorState.mode !== CursorMode.Chat) {
+        setCursorState({
+          mode: CursorMode.ReactionSelector
         });
       } else if (e.key === 'Escape') {
         updateMyPresence({ message: '' });
