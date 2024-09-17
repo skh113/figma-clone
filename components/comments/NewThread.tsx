@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   FormEvent,
@@ -6,17 +6,17 @@ import {
   useCallback,
   useEffect,
   useRef,
-  useState,
-} from "react";
-import { Slot } from "@radix-ui/react-slot";
-import * as Portal from "@radix-ui/react-portal";
-import { ComposerSubmitComment } from "@liveblocks/react-comments/primitives";
+  useState
+} from 'react';
+import { Slot } from '@radix-ui/react-slot';
+import * as Portal from '@radix-ui/react-portal';
+import { ComposerSubmitComment } from '@liveblocks/react-comments/primitives';
 
-import { useCreateThread } from "@/liveblocks.config";
-import { useMaxZIndex } from "@/lib/useMaxZIndex";
+import { useCreateThread } from '@/liveblocks.config';
+import { useMaxZIndex } from '@/lib/useMaxZIndex';
 
-import PinnedComposer from "./PinnedComposer";
-import NewThreadCursor from "./NewThreadCursor";
+import PinnedComposer from './PinnedComposer';
+import NewThreadCursor from './NewThreadCursor';
 
 type ComposerCoords = null | { x: number; y: number };
 
@@ -27,14 +27,8 @@ type Props = {
 export const NewThread = ({ children }: Props) => {
   // set state to track if we're placing a new comment or not
   const [creatingCommentState, setCreatingCommentState] = useState<
-    "placing" | "placed" | "complete"
-  >("complete");
-
-  /**
-   * We're using the useCreateThread hook to create a new thread.
-   *
-   * useCreateThread: https://liveblocks.io/docs/api-reference/liveblocks-react#useCreateThread
-   */
+    'placing' | 'placed' | 'complete'
+  >('complete');
   const createThread = useCreateThread();
 
   // get the max z-index of a thread
@@ -53,7 +47,7 @@ export const NewThread = ({ children }: Props) => {
 
   useEffect(() => {
     // If composer is already placed, don't do anything
-    if (creatingCommentState === "complete") {
+    if (creatingCommentState === 'complete') {
       return;
     }
 
@@ -62,12 +56,12 @@ export const NewThread = ({ children }: Props) => {
       e.preventDefault();
 
       // If already placed, click outside to close composer
-      if (creatingCommentState === "placed") {
+      if (creatingCommentState === 'placed') {
         // check if the click event is on/inside the composer
         const isClickOnComposer = ((e as any)._savedComposedPath = e
           .composedPath()
           .some((el: any) => {
-            return el.classList?.contains("lb-composer-editor-actions");
+            return el.classList?.contains('lb-composer-editor-actions');
           }));
 
         // if click is inisde/on composer, don't do anything
@@ -77,23 +71,23 @@ export const NewThread = ({ children }: Props) => {
 
         // if click is outside composer, close composer
         if (!isClickOnComposer) {
-          setCreatingCommentState("complete");
+          setCreatingCommentState('complete');
           return;
         }
       }
 
       // First click sets composer down
-      setCreatingCommentState("placed");
+      setCreatingCommentState('placed');
       setComposerCoords({
         x: e.clientX,
-        y: e.clientY,
+        y: e.clientY
       });
     };
 
-    document.documentElement.addEventListener("click", newComment);
+    document.documentElement.addEventListener('click', newComment);
 
     return () => {
-      document.documentElement.removeEventListener("click", newComment);
+      document.documentElement.removeEventListener('click', newComment);
     };
   }, [creatingCommentState]);
 
@@ -105,11 +99,11 @@ export const NewThread = ({ children }: Props) => {
       lastPointerEvent.current = e;
     };
 
-    document.documentElement.addEventListener("pointermove", handlePointerMove);
+    document.documentElement.addEventListener('pointermove', handlePointerMove);
 
     return () => {
       document.documentElement.removeEventListener(
-        "pointermove",
+        'pointermove',
         handlePointerMove
       );
     };
@@ -117,7 +111,7 @@ export const NewThread = ({ children }: Props) => {
 
   // Set pointer event from last click on body for use later
   useEffect(() => {
-    if (creatingCommentState !== "placing") {
+    if (creatingCommentState !== 'placing') {
       return;
     }
 
@@ -135,22 +129,22 @@ export const NewThread = ({ children }: Props) => {
 
     // Right click to cancel placing
     const handleContextMenu = (e: Event) => {
-      if (creatingCommentState === "placing") {
+      if (creatingCommentState === 'placing') {
         e.preventDefault();
-        setCreatingCommentState("complete");
+        setCreatingCommentState('complete');
       }
     };
 
-    document.documentElement.addEventListener("pointerdown", handlePointerDown);
-    document.documentElement.addEventListener("contextmenu", handleContextMenu);
+    document.documentElement.addEventListener('pointerdown', handlePointerDown);
+    document.documentElement.addEventListener('contextmenu', handleContextMenu);
 
     return () => {
       document.documentElement.removeEventListener(
-        "pointerdown",
+        'pointerdown',
         handlePointerDown
       );
       document.documentElement.removeEventListener(
-        "contextmenu",
+        'contextmenu',
         handleContextMenu
       );
     };
@@ -163,7 +157,7 @@ export const NewThread = ({ children }: Props) => {
       event.stopPropagation();
 
       // Get your canvas element
-      const overlayPanel = document.querySelector("#canvas");
+      const overlayPanel = document.querySelector('#canvas');
 
       // if there's no composer coords or last pointer event, meaning the user hasn't clicked yet, don't do anything
       if (!composerCoords || !lastPointerEvent.current || !overlayPanel) {
@@ -182,12 +176,12 @@ export const NewThread = ({ children }: Props) => {
           x,
           y,
           resolved: false,
-          zIndex: maxZIndex + 1,
-        },
+          zIndex: maxZIndex + 1
+        }
       });
 
       setComposerCoords(null);
-      setCreatingCommentState("complete");
+      setCreatingCommentState('complete');
       setAllowUseComposer(false);
     },
     [createThread, composerCoords, maxZIndex]
@@ -195,38 +189,24 @@ export const NewThread = ({ children }: Props) => {
 
   return (
     <>
-      {/**
-       * Slot is used to wrap the children of the NewThread component
-       * to allow us to add a click event listener to the children
-       *
-       * Slot: https://www.radix-ui.com/primitives/docs/utilities/slot
-       *
-       * Disclaimer: We don't have to download this package specifically,
-       * it's already included when we install Shadcn
-       */}
       <Slot
         onClick={() =>
           setCreatingCommentState(
-            creatingCommentState !== "complete" ? "complete" : "placing"
+            creatingCommentState !== 'complete' ? 'complete' : 'placing'
           )
         }
-        style={{ opacity: creatingCommentState !== "complete" ? 0.7 : 1 }}
+        style={{ opacity: creatingCommentState !== 'complete' ? 0.7 : 1 }}
       >
         {children}
       </Slot>
 
       {/* if composer coords exist and we're placing a comment, render the composer */}
-      {composerCoords && creatingCommentState === "placed" ? (
-        /**
-         * Portal.Root is used to render the composer outside of the NewThread component to avoid z-index issuess
-         *
-         * Portal.Root: https://www.radix-ui.com/primitives/docs/utilities/portal
-         */
+      {composerCoords && creatingCommentState === 'placed' ? (
         <Portal.Root
-          className='absolute left-0 top-0'
+          className="absolute left-0 top-0"
           style={{
-            pointerEvents: allowUseComposer ? "initial" : "none",
-            transform: `translate(${composerCoords.x}px, ${composerCoords.y}px)`,
+            pointerEvents: allowUseComposer ? 'initial' : 'none',
+            transform: `translate(${composerCoords.x}px, ${composerCoords.y}px)`
           }}
           data-hide-cursors
         >
@@ -235,7 +215,7 @@ export const NewThread = ({ children }: Props) => {
       ) : null}
 
       {/* Show the customizing cursor when placing a comment. The one with comment shape */}
-      <NewThreadCursor display={creatingCommentState === "placing"} />
+      <NewThreadCursor display={creatingCommentState === 'placing'} />
     </>
   );
 };

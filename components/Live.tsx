@@ -16,6 +16,7 @@ import LiveCursors from './cursor/LiveCursors';
 import ReactionSelector from '@/components/reaction/ReactionButton';
 import FlyingReaction from '@/components/reaction/FlyingReaction';
 import useInterval from '@/hooks/useInterval';
+import { Comments } from '@/components/comments/Comments';
 
 type Props = {
   canvasRef: MutableRefObject<HTMLCanvasElement | null>;
@@ -164,7 +165,7 @@ const Live = ({ canvasRef }: Props) => {
       onPointerLeave={handlePointerLeave}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
-      className="h-[100svh] w-full flex justify-center items-center text-center"
+      className="relative h-full w-full flex flex-1 justify-center items-center"
     >
       <canvas ref={canvasRef} />
 
@@ -192,6 +193,7 @@ const Live = ({ canvasRef }: Props) => {
       )}
 
       <LiveCursors others={others} />
+      <Comments />
     </div>
   );
 };
