@@ -1,11 +1,10 @@
-import { BaseUserMeta, User } from "@liveblocks/client";
-import { Gradient, Pattern } from "fabric/fabric-impl";
+import { Gradient, Pattern } from 'fabric/fabric-impl';
 
 export enum CursorMode {
   Hidden,
   Chat,
   ReactionSelector,
-  Reaction,
+  Reaction
 }
 
 export type CursorState =
@@ -116,12 +115,6 @@ export type ShapesMenuProps = {
   handleActiveElement: any;
   handleImageUpload: any;
   imageInputRef: any;
-};
-
-export type Presence = any;
-
-export type LiveCursorProps = {
-  others: readonly User<Presence, BaseUserMeta>[];
 };
 
 export type CanvasMouseDown = {
