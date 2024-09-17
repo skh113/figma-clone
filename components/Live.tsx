@@ -22,7 +22,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger
-} from '@radix-ui/react-context-menu';
+} from '@/components/ui/context-menu';
 import { shortcuts } from '@/constants';
 
 type Props = {
