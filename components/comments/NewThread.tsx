@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import * as Portal from '@radix-ui/react-portal';
-import { ComposerSubmitComment } from '@liveblocks/react-comments/primitives';
+import { ComposerSubmitComment } from '@liveblocks/react-ui/primitives';
 
 import { useCreateThread } from '@/liveblocks.config';
 import { useMaxZIndex } from '@/lib/useMaxZIndex';

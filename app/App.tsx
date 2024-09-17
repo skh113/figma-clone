@@ -24,7 +24,7 @@ import { defaultNavElement } from '@/constants';
 import { handleDelete, handleKeyDown } from '@/lib/key-events';
 import { handleImageUpload } from '@/lib/shapes';
 
-export default function AppPage() {
+export default function Home() {
   const undo = useUndo();
   const redo = useRedo();
 

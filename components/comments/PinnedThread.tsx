@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { ThreadData } from '@liveblocks/client';
-import { Thread } from '@liveblocks/react-comments';
+import { Thread } from '@liveblocks/react-ui';
 
 import { ThreadMetadata } from '@/liveblocks.config';
 

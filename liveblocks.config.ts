@@ -1,8 +1,9 @@
 import { createClient, LiveMap } from '@liveblocks/client';
+import { ReactionEvent } from './types/type';
 import { createRoomContext } from '@liveblocks/react';
-import { ReactionEvent } from '@/types/type';
 
 const client = createClient({
+  throttle: 16,
   publicApiKey: process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!
 });
 
@@ -99,7 +100,7 @@ export const {
 
       return [];
     },
-    async resolveMentionSuggestions({ text, roomId }) {
+    async resolveMentionSuggestions({ text }) {
       // Used only for Comments. Return a list of userIds that match `text`.
       // These userIds are used to create a mention list when typing in the
       // composer.

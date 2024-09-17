@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "@liveblocks/react-comments/styles.css";
-
 * {
     font-family: work sans,
     sans-serif;
@@ -29,4 +27,12 @@ body {
     .right-menu-item {
         @apply flex justify-between px-3 py-2 hover:bg-primary-grey-200 !important;
     }
+}
+
+.lb-tooltip {
+    --lb-foreground: white;
+}
+
+.lb-elevation {
+    --lb-background: red;
 }
